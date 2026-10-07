@@ -4,7 +4,9 @@
 # operated in it. Emits a table sorted by size with a suggested bucket. Never
 # deletes anything; deletion stays a human-gated step in the playbook.
 #
-# Usage: worktree-audit.sh [repo-path]   (defaults to the current repo)
+# Usage: worktree-audit.sh [repo-path] [transcripts-dir]
+# repo-path defaults to the current repo. transcripts-dir defaults to
+# $PSTACK_TRANSCRIPTS_DIR. With neither set, the transcript check is skipped.
 set -u
 
 repo="${1:-$(git rev-parse --show-toplevel 2>/dev/null)}"
@@ -22,9 +24,8 @@ prs=$(mktemp)
 gh pr list --author "@me" --state all --limit 1000 \
 	--json number,state,headRefName 2>/dev/null > "$prs" || echo "[]" > "$prs"
 
-# Transcripts dir: ~/.cursor/projects/<slugified-repo-path>/agent-transcripts.
-slug=$(printf '%s' "$main_wt" | sed 's#^/##; s#/#-#g')
-transcripts="$HOME/.cursor/projects/$slug/agent-transcripts"
+transcripts="${2:-${PSTACK_TRANSCRIPTS_DIR:-}}"
+[ -z "$transcripts" ] && echo "note: no transcripts dir (arg 2 or PSTACK_TRANSCRIPTS_DIR); skipping the last-chat check" >&2
 now=$(date +%s)
 
 printf "SIZE\tAGE\tMERGED\tDIRTY\tREMOTE\tPR\tLAST_CHAT\tBUCKET\tWORKTREE\n"
@@ -63,7 +64,7 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 	# Most recent chat whose transcript operated in this worktree. Match path
 	# followed by "/" or a quote so glint-482 does not match glint-482-r37.
 	last="-"; last_ts=0
-	if [ -d "$transcripts" ]; then
+	if [ -n "$transcripts" ] && [ -d "$transcripts" ]; then
 		f=$(rg -l -e "${wt}/" -e "${wt}\"" "$transcripts" 2>/dev/null \
 			| xargs stat -f '%m %N' 2>/dev/null | sort -rn | head -1)
 		if [ -n "$f" ]; then last_ts=$(echo "$f" | awk '{print $1}')

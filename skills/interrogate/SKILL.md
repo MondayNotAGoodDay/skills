@@ -33,19 +33,16 @@ Write one clear paragraph. If you're unsure about the intent, ask the user befor
 
 ## Step 3, Spawn Reviewers
 
-Launch all reviewers in a single message using the Task tool. Use the `interrogate reviewers` line in `~/.cursor/rules/pstack-models.mdc`, one reviewer per entry, extending or shrinking the Reviewer A/B labels below to the configured entry count. If the rule or that line is missing, use the table defaults.
+Each spawn below names a `role` from the pstack profile (written by `/setup-pstack`, always in your context). Spawn it with the profile's `spawn` recipe, passing that role's value as the model. A role with no line, or the value `inherit`, means no model override. If the harness rejects the model, retry with `inherit` and say so. With no profile in context, follow the fallback in the `setup-pstack` skill (`references/profile-template.md`) and tell the user once that `/setup-pstack` was not run.
 
-| Subagent | Default model |
-|----------|---------------|
-| Reviewer A | `claude-opus-5-5-xhigh` |
-| Reviewer B | `grok-4.7-xhigh-fast` |
+Launch all reviewers in a single message. Use the `interrogate reviewers` role, one reviewer per entry, extending or shrinking the Reviewer A/B labels to the configured entry count. With no line, spawn Reviewer A and Reviewer B, both with no model override.
 
 For each reviewer:
-- `subagent_type`: `generalPurpose`
-- `model`: the configured `interrogate reviewers` entry, or the table default with no configured line. For an `auto` or `inherit-parent` entry, omit `model` so that reviewer runs on the parent model.
-- `readonly`: `true`
+- `role`: `interrogate reviewers` (this reviewer's entry)
+- `access`: `read-only`
+- `run`: `foreground`
 
-If the Task tool rejects a configured entry, run that reviewer on the table default of its family and say so. Families go by prefix: `claude-*` and `grok-*`. With no family match, use Reviewer A's default. If it rejects a table default, check the valid slugs in the Task tool's error message, pick the closest equivalent (prefer the same family and reasoning tier), spawn with it, and open a separate PR to update the default table. Do not block the review on the slug issue. Never treat an alias entry as a rejected slug or apply either fallback to it.
+An `inherit` entry runs on the parent model. Do not block the review on a model problem.
 
 Read `references/reviewer-prompt.md` and fill in the template with:
 1. The stated intent

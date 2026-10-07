@@ -2,7 +2,7 @@
 
 **You own the diagnosis. Instrument the live process, don't theorize from source.** The deliverable is a cited diagnosis, not a fix.
 
-1. Capture the live signal on the matching surface via the control skill: a CPU profile for a spinning process, a heap snapshot for a leak, a CDP trace for a visual glitch. A real artifact, not a guess.
+1. Capture the live signal on the matching surface via a UI-driving skill or tool (a browser or Electron driver, such as a `control-ui` skill or a browser MCP, if one is installed) or a CLI/TUI driver (such as `control-cli` or a terminal multiplexer), if one is installed. With none, drive it by hand with shell and report that the surface was not automated. Capture a CPU profile for a spinning process, a heap snapshot for a leak, a CDP trace for a visual glitch. A real artifact, not a guess.
 2. Reduce the artifact to the smoking gun: the function on the hot path, the retainer chain from the leaked object to a GC root, the loop firing without input. Parse large artifacts in a subagent (the **guard-the-context-window** principle skill), keep the reduced finding in the main thread.
 3. Prove the mechanism before believing it. Inject instrumentation via CDP eval on the running process, or hotfix the live code without reloading, to confirm the hypothesis cheaply.
 4. Map the finding back to source: file, symbol, the line that allocates or schedules.

@@ -1,74 +1,107 @@
 ---
 name: setup-pstack
-description: Configure which models pstack uses per role and at what reasoning budget. Detects your available models and writes an always-applied rule that overrides the skill defaults. Use for /setup-pstack, "configure pstack models", "pstack budget", or changing pstack's model choices.
+description: Adapt pstack to the harness you are running in. Detects the harness from this session's own tool schemas, discovers how it spawns subagents, asks the user, and reads history, then picks a model per role and a reasoning budget. Writes a pstack profile into the harness's standing instructions and generates agent files when the harness needs them. Use for /setup-pstack, "configure pstack", "pstack budget", "pstack models", or when a pstack skill says no profile is in context.
 ---
 
 # Setup pstack
 
-Write `~/.cursor/rules/pstack-models.mdc`, an always-applied rule that sets pstack's model per role.
+pstack skills never name a harness tool or a model. They say "spawn role X with access Y" and "ask the user". This skill turns those words into this harness's real calls by writing a **pstack profile** into the standing instructions the harness loads every session.
+
+Run it once per harness. Re-run it to change the budget or models, after a harness upgrade, or when a smoke test fails.
+
+## Rules
+
+- **Evidence over memory.** Read tool names, parameters, and enums from this session's tool schemas. `references/harness-hints.md` is a list of leads to check, not facts to copy. A hint the schemas contradict loses.
+- **Never write a model you did not confirm exists.** A harness with no model list means you ask the user to paste the ids.
+- **Idempotent.** Re-runs replace the managed block and generated files, nothing else.
+- **Prove it.** Step 8 spawns a real subagent with the finished recipe. A profile that was never exercised is a guess.
 
 ## Steps
 
-### 1. Detect available models
+### 1. Identify the harness
 
-Enumerate the model slugs you can pass to a `Task` subagent in this session. That is the dependable source. If Cursor also exposes a models API or CLI that lists the user's entitled models, prefer it for completeness. If you cannot detect any, ask the user to paste the slugs they have access to. Never write a real slug you have not confirmed is available. The aliases `inherit-parent` and `auto` are always valid even though they are not detected slugs.
+Name the harness from evidence, in this order.
 
-### 2. Load current state
+1. The tool schemas in this session. Look for the tool that spawns a subagent, the one that asks the user a question, and the one that loads a skill.
+2. The system prompt, which usually names the product.
+3. Config directories that exist (`~/.config/opencode`, `~/.config/devin`, `~/.cursor`, `~/.claude`, `~/.codex`) and the env vars the product sets.
 
-The default role-to-model mapping is the rule shape shown in step 5 below. If `~/.cursor/rules/pstack-models.mdc` already exists, read it and treat its `# budget` line and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `how critics`, is from a retired role. Drop it.
+Compare against `references/harness-hints.md`. State the harness and the evidence in one sentence. If two harnesses fit or none does, ask the user. For an unknown harness, continue with step 2 anyway. Everything is derived from the schemas.
 
-### 3. Budget, map, and confirm
+### 2. Discover capabilities
 
-**(a) Ask for a budget.** Prefer AskQuestion over free text. Offer these four options with these exact labels, and name the current budget when the rule records one. With no rule, say that `large` matches the skill defaults.
+Fill every row of the capability table in `references/profile-template.md` from the schemas and from probing. Mark a row `unsupported` when the harness truly cannot do it. Do not leave a row blank.
 
-- `unlimited — max reasoning`
-- `large — xhigh reasoning`
-- `medium — high reasoning`
-- `small — medium reasoning`
+Rows that need a real probe, not a guess:
 
-**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by family, list, or alias (`inherit-parent`, `auto`). `unlimited`, `large`, `medium`, and `small` set the effort token of every real slug, panel entries included, to `max`, `xhigh`, `high`, or `medium`. The effort token is the last token, or the one before a trailing `fast`, on the ladder `max` > `xhigh` > `high` > `medium` > `low`. If the result is not a detected slug, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice. `inherit-parent` and `auto` do not change. So `unlimited` turns `claude-opus-5-5-xhigh` into `claude-opus-5-5-max`. Grok slugs top out at `xhigh`, so under `unlimited` the fallback puts Grok at `xhigh` and keeps `grok-4.7-xhigh-fast` as it is. `large` keeps both defaults. `small` turns them into `claude-opus-5-5-medium` and `grok-4.7-medium-fast`.
+- **How to read this session's transcript.** Find where the harness stores history and how to locate the current session's file or export. Run the command and confirm it returns this conversation. Several pstack skills (`recall`, `reflect`, `show-me-your-work`, `eval`, `session-pickup`) depend on it.
+- **Models.** Use the harness's model list (a tool, a CLI, a config file). If none exists, ask for ids.
+- **Effort control.** Whether reasoning effort is a model suffix, a variant, a parameter, or not controllable.
+- **Where models bind.** Either the spawn call takes a model per call, or the model is fixed by the agent definition the call names. This decides step 6.
 
-**(c) Show the roles and confirm.** Show every role with its model, marking any real slug not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models plus `inherit-parent` and `auto` (both mean: this role runs on the parent chat model, which is how Auto users stay on Auto) as the options. Prefer AskQuestion over free text. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena selects one value from it whose model family differs from the parent's when possible. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.
+### 3. Load current state
 
-### 4. Validate
+Look for an existing managed block (`<!-- pstack:begin -->`) in the standing instructions file. Treat its `budget` and role values as the current choices. Also look for legacy forms and import their values, then remove them in step 7.
 
-Every real slug written must be in the detected set. `inherit-parent` and `auto` always pass. If a chosen real slug is not available, stop and ask again.
+- Cursor: `~/.cursor/rules/pstack-models.mdc`.
+- Any harness: a hand-written section titled `pstack subagent models`.
+- WorkBuddy: a `## pstack model configuration` section in `~/.workbuddy/MEMORY.md`.
 
-### 5. Write the rule
+A role not in `references/roles.md` is from a retired role. Drop it and tell the user.
 
-Write `~/.cursor/rules/pstack-models.mdc` with `alwaysApply: true`, a `# budget` line with the chosen label and its target effort, and one line per role, using the same labels poteto-mode uses. Overwrite the whole file so re-runs stay idempotent. Shape:
+### 4. Budget
 
-```
----
-description: pstack per-role model choices (overrides skill defaults)
-alwaysApply: true
----
-# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
-# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit Task `model`). Alias entries in a panel list still count toward its fan-out.
-# budget: large (xhigh)
-feature, refactoring: grok-4.7-xhigh-fast
-bug-fix: grok-4.7-xhigh-fast
-perf-issue: grok-4.7-xhigh-fast
-hillclimb: grok-4.7-xhigh-fast
-judgment and prose: claude-opus-5-5-xhigh
-hardest tasks: claude-opus-5-5-xhigh
-how explorer: grok-4.7-xhigh-fast
-how explainer: claude-opus-5-5-xhigh
-why investigators: grok-4.7-xhigh-fast
-why synthesizer: claude-opus-5-5-xhigh
-reflect tooling: grok-4.7-xhigh-fast
-reflect judgment, divergent, synthesizer: claude-opus-5-5-xhigh
-arena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
-arena cross-judge pool: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
-swarm workers: grok-4.7-xhigh-fast
-architect runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
-interrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
-```
+Ask for a budget. Name the current one when there is one. With none, say `large` matches the defaults.
 
-### 6. Confirm
+- `unlimited` means max reasoning
+- `large` means xhigh reasoning
+- `medium` means high reasoning
+- `small` means medium reasoning
 
-Tell the user the rule was written and that it applies to new sessions. Re-running this skill updates it.
+The budget sets the target effort for every model in step 5. Where the harness cannot control effort, the budget only decides how strong a model to pick, and you say so.
 
-### 7. Offer a verification skill (optional)
+### 5. Pick models
 
-Check whether the project has a way to drive the real app for proof (a `verify-*` skill, or an existing harness). If not, offer once: "want a project-local verification skill, so agents can drive the app the way a user does and prove changes work? I can generate one with /create-verification-skill." On yes, invoke `/create-verification-skill` (resolves wherever pstack is installed: workspace, user, or plugin). On no, move on without pushing.
+Build the role table from `references/roles.md`.
+
+1. Classify the available models into `code`, `judgment`, and the families a `panel` needs, using the class definitions in that file.
+2. Fill each role from its class. Apply the budget's target effort in the way step 2 found. If the exact effort is not offered, use the highest one at or below the target for that model.
+3. If only one model is available, every role is `inherit` and panels are a single entry. Say that panels will not be model-diverse.
+4. Show the table. Mark any value you could not confirm. Ask whether to accept it or change specific roles. Offer the available models plus `inherit` (run this role on the parent's model).
+
+On a re-run, keep every role the user changed by hand.
+
+### 6. Generate agent files, only if the harness binds model to agent
+
+If step 2 found that the spawn call takes a model per call, skip this step.
+
+Otherwise each distinct (model, access) pair in the role table needs an agent definition the spawn call can name. Write one file per pair in the harness's agents directory, named `pstack-<model-slug>-<ro|rw>`. Use the harness's own frontmatter (from the schemas or docs, not from memory). `ro` limits tools to read and search. `rw` allows edit and shell. A persona prompt body is not needed here. Personas are passed as the task prompt.
+
+Optionally also install `poteto-agent` natively, from `skills/poteto-mode/references/poteto-agent.md`, when the harness supports custom agents. Offer it once, skip on no.
+
+Record the generated names in the profile's `agents` line so a re-run can clean them up.
+
+### 7. Write the profile
+
+1. Fill `references/profile-template.md` with the values from steps 2 to 6. Keep it under 45 lines. The block is in context every session.
+2. Choose the target, in this order: the harness's user-level standing instructions file, then the project's `AGENTS.md` with the user's consent. If neither exists, write `~/.config/pstack/profile.md` and tell the user which file to include.
+3. Replace the text between `<!-- pstack:begin -->` and `<!-- pstack:end -->`, or append the block. Remove legacy forms found in step 3. Touch nothing else in the file.
+4. Show the user the final block and the file path.
+
+### 8. Prove the recipe
+
+Follow the profile you just wrote, literally, as a skill would.
+
+1. Spawn one read-only subagent, foreground, on the `how explorer` role, with the prompt "List the files at the repository root. Reply with the list only."
+2. Spawn one background subagent with `access: full` on a throwaway task that creates a file in the OS temp directory. Read the file back, then delete it.
+3. Read this session's transcript with the profile's `history` recipe and confirm it contains this setup conversation.
+
+On any failure, fix the recipe or the generated files and repeat. Report each probe as pass or fail. If a capability cannot work in this harness, set it to `unsupported` with the fallback from the template.
+
+### 9. Report
+
+Say what was written and where, that it applies to new sessions, and which capabilities are `unsupported` with their fallbacks. Re-running updates it.
+
+### 10. Offer a verification skill (optional)
+
+Check whether the project has a way to drive the real app for proof (a `verify-*` skill, or an existing harness). If not, offer once: "want a project-local verification skill, so agents can drive the app the way a user does and prove changes work? I can generate one with /create-verification-skill." On yes, run `create-verification-skill`. On no, move on.

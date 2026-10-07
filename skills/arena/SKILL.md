@@ -8,6 +8,8 @@ disable-model-invocation: true
 
 Fan out N parallel attempts at the same task. Read every candidate end to end. Pick the strongest as the base. Graft the best ideas from the others into it. Verify the synthesized result.
 
+Each spawn below names a `role` from the pstack profile (written by `/setup-pstack`, always in your context). Spawn it with the profile's `spawn` recipe, passing that role's value as the model. A role with no line, or the value `inherit`, means no model override. If the harness rejects the model, retry with `inherit` and say so. With no profile in context, follow the fallback in the `setup-pstack` skill (`references/profile-template.md`) and tell the user once that `/setup-pstack` was not run.
+
 ## Start
 
 Open a todolist with one entry per phase before launching anything.
@@ -25,12 +27,12 @@ The N candidates will receive the same prompt, so the prompt is the contract.
 
 1. State the artifact each candidate is producing.
 2. Derive the rubric. State what success looks like for *this* task, then turn it into 3-6 concrete gradeable criteria. The rubric is the picker's tool in Phase D. Candidates only see the task.
-3. Pick the runners. Use the `arena runners` line in `~/.cursor/rules/pstack-models.mdc`. If the rule or that line is missing, default to one each on `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. An `auto` or `inherit-parent` entry in this line or the cross-judge line means the parent model, so omit `model` for it. If the Task tool rejects a configured entry, run that seat on its family's default and say so. Families go by prefix: `claude-*` and `grok-*`. With no family match, use `claude-opus-5-5-xhigh`. If it rejects a default, use the closest valid slug of the same family from its error message. Spawn more when the arena covers multiple design directions. Same model N times when the work is generation-bound rather than judgment-sensitive.
+3. Pick the runners. Use the `arena runners` role value from the pstack profile, one runner per entry. An `inherit` entry means the parent model, so pass no model override for it. If the harness rejects an entry, run that seat on `inherit` and say so. Spawn more when the arena covers multiple design directions. Same model N times when the work is generation-bound rather than judgment-sensitive.
 4. Assign output paths. Each candidate writes to its own location (a git worktree where possible, otherwise `/tmp/arena-<slug>/candidate-<n>/`), per the **separate-before-serializing-shared-state** principle skill.
 
 ## Phase B: Fan out
 
-Spawn all N subagents in one message with `run_in_background: true`, each with the task, the path to the shared grounding, its own output path, and instructions to produce both the artifact and a short rationale.
+Spawn all N subagents in one message with `run`: `background`, each with the task, the path to the shared grounding, its own output path, and instructions to produce both the artifact and a short rationale.
 
 Each rationale names the alternatives the candidate considered and what it rejected.
 
@@ -38,7 +40,7 @@ If a candidate fails to produce output, proceed with N-1 and note the dropout in
 
 ## Phase C: Cross-judge
 
-After all Phase B candidates complete, choose one model from the `arena cross-judge pool` line in `~/.cursor/rules/pstack-models.mdc`. If the rule or that line is missing, choose from `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. Prefer a different model family from the parent's. Spawn one readonly judge subagent on that model. It sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with the parent's reading in Phase D, not with the candidates themselves. Don't spawn the judge while candidates are still writing.
+After all Phase B candidates complete, choose one entry from the `arena cross-judge pool` role value. Prefer a different model family from the parent's. Spawn one judge subagent with `access`: `read-only` on that entry. It sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with the parent's reading in Phase D, not with the candidates themselves. Don't spawn the judge while candidates are still writing.
 
 ## Phase D: Pick a base
 

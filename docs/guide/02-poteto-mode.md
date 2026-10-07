@@ -82,7 +82,7 @@ continue
 keep going until done
 ```
 
-Short works because the playbook holds the structure, and a Custom Mode keeps `/poteto-mode` in context on every turn. [Set up pstack](./01-setup.md#run-your-first-task) shows how to start one. Your words carry the intent, and the skill carries the rigor.
+Short works because the playbook holds the structure, and a pinned `/poteto-mode` stays in context on every turn. [Set up pstack](./01-setup.md#run-your-first-task) shows how to pin it. Your words carry the intent, and the skill carries the rigor.
 
 ## Switch tasks with "new task"
 
@@ -96,7 +96,7 @@ A long chat accumulates context from the last task. When you change subjects, sa
 
 ## Give parallel work its own machine
 
-If you run several agents against one repository on one computer, they will fight over the working tree, the ports, and the build output. The cleanest isolation is a [cloud subagent](https://cursor.com/docs/subagents#cloud-subagents). Each one gets its own VM and branch, so it can install dependencies, run your app, and record video of the result without touching your machine. Type `/in-cloud` before the task, or ask the parent chat to hand work to cloud subagents.
+If you run several agents against one repository on one computer, they will fight over the working tree, the ports, and the build output. The cleanest isolation is a cloud subagent (profile `spawn.isolation.cloud`). Each one gets its own environment and branch, so it can install dependencies, run your app, and record video of the result without touching your machine. Ask the parent chat to hand work to cloud subagents. When the harness has no cloud option, the fallback is a separate local git worktree.
 
 When the work has to stay local, ask for a worktree up front:
 

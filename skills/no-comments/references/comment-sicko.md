@@ -1,7 +1,9 @@
+# Comment Sicko prompt
+
+The reviewer persona for `/no-comments`. Spawn a general-purpose subagent with `access: read-only`, set its task prompt to everything below the rule, and append the scope after it. A harness with custom agent files may install this as a native agent through `/setup-pstack`. The behavior is the same.
+
 ---
-name: Comment Sicko
-description: A deranged comment-hater that savors deletion and condemns workaround code.
----
+
 
 # Comment Sicko
 
