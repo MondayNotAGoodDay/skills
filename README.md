@@ -74,11 +74,18 @@ The rest (`blast-radius`, `recall`, `reflect`, `tdd`, `unslop`, `no-comments`, t
 skills/
   <skill-name>/
     SKILL.md
+skills.sh.json     repo page groups on skills.sh
 docs/guide/        pstack guide
 third_party/       upstream license
 ```
 
 Each `SKILL.md` has YAML frontmatter with `name` (equal to the directory name) and `description`.
+
+## Groups on skills.sh
+
+[skills.sh.json](skills.sh.json) owns the sections on the [repo page](https://skills.sh/MondayNotAGoodDay/skills). It is display-only: `npx skills add` reads the skill directories, not this file, so grouping never changes an install command or a skill's name. Every skill is listed exactly once, and a name in two groups belongs to the first one.
+
+The other grouping levers, none of which are in use here, are the CLI's category walk (`skills/<category>/<name>/SKILL.md`, up to two category levels), the hidden buckets `skills/.curated/`, `skills/.experimental/`, and `skills/.system/`, `metadata.internal: true` in frontmatter, and [packs](https://skills.sh/docs/packs) for bundling skills across repos.
 
 ## License
 

@@ -1,0 +1,106 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Start here",
+      "description": "Set pstack up for your harness, then pick the right skill or playbook for the task.",
+      "skills": [
+        "setup-pstack",
+        "poteto-mode",
+        "poteto-help"
+      ]
+    },
+    {
+      "title": "Understand",
+      "description": "Explain how a system works, why it was built that way, and get back up to speed.",
+      "skills": [
+        "how",
+        "why",
+        "teach",
+        "recall",
+        "eli5",
+        "show-me"
+      ]
+    },
+    {
+      "title": "Design",
+      "description": "Settle the shape of a change before code, in parallel attempts or under adversarial review.",
+      "skills": [
+        "architect",
+        "arena",
+        "interrogate"
+      ]
+    },
+    {
+      "title": "Build, verify, and ship",
+      "description": "Drive real behavior, catch what a change could break, and keep the code and its checks honest.",
+      "skills": [
+        "tdd",
+        "correct",
+        "create-verification-skill",
+        "maintain-verification-skill",
+        "benchmark-checklist",
+        "blast-radius",
+        "no-comments",
+        "typescript-best-practices"
+      ]
+    },
+    {
+      "title": "Long-running work",
+      "description": "Playbooks for migrations, fan-out, and work a human reviews after stepping away.",
+      "skills": [
+        "figure-it-out",
+        "swarm",
+        "show-me-your-work"
+      ]
+    },
+    {
+      "title": "Principles",
+      "description": "The engineering principles poteto-mode cites when it makes a call.",
+      "skills": [
+        "principle-attack-the-premise",
+        "principle-boundary-discipline",
+        "principle-build-the-lever",
+        "principle-encode-lessons-in-structure",
+        "principle-exhaust-the-design-space",
+        "principle-experience-first",
+        "principle-explain-the-number",
+        "principle-fix-root-causes",
+        "principle-foundational-thinking",
+        "principle-guard-the-context-window",
+        "principle-laziness-protocol",
+        "principle-make-operations-idempotent",
+        "principle-migrate-callers-then-delete-legacy-apis",
+        "principle-minimize-reader-load",
+        "principle-model-the-domain",
+        "principle-never-block-on-the-human",
+        "principle-outcome-oriented-execution",
+        "principle-prove-it-works",
+        "principle-redesign-from-first-principles",
+        "principle-separate-before-serializing-shared-state",
+        "principle-sequence-verifiable-units",
+        "principle-subtract-before-you-add",
+        "principle-test-behavior-not-implementation",
+        "principle-type-system-discipline"
+      ]
+    },
+    {
+      "title": "Writing",
+      "description": "Prose standards for anything an agent or a human reads.",
+      "skills": [
+        "unslop",
+        "technical-writing",
+        "bro"
+      ]
+    },
+    {
+      "title": "Make it yours",
+      "description": "Turn your own working style into skills, and fold what a run taught you back in.",
+      "skills": [
+        "automate-me",
+        "reflect"
+      ]
+    }
+  ]
+}
