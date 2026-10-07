@@ -67,6 +67,7 @@ The rest (`blast-radius`, `recall`, `reflect`, `tdd`, `unslop`, `no-comments`, t
 | --- | --- |
 | [eli5](skills/eli5/SKILL.md) | Dead-simple picture explainer (`/eli5 <topic>`) |
 | [show-me](skills/show-me/SKILL.md) | Visual diagrams / code-shape sketches for the current topic |
+| [html-plan](skills/html-plan/SKILL.md) | An implementation plan as one reviewable HTML page (`/html-plan <what to build>`) |
 
 ## Layout
 
@@ -74,12 +75,15 @@ The rest (`blast-radius`, `recall`, `reflect`, `tdd`, `unslop`, `no-comments`, t
 skills/
   <skill-name>/
     SKILL.md
+    references/   optional: long reference the skill reads on demand
+    runtime/      optional: scripts the skill runs
+    examples/     optional: a worked example
 docs/guide/        pstack guide
 third_party/       upstream license
 ```
 
-Each `SKILL.md` has YAML frontmatter with `name` (equal to the directory name) and `description`.
+Each `SKILL.md` has YAML frontmatter with `name` (equal to the directory name) and `description`. Most skills also set `disable-model-invocation: true`, so they run only when named.
 
 ## License
 
-MIT. pstack is derived from [cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack), Copyright (c) 2026 Lauren Tan, MIT, see [third_party/pstack/LICENSE](third_party/pstack/LICENSE). `eli5` adapted from [anthropics/claude-plugins-community](https://github.com/anthropics/claude-plugins-community); `show-me` from [humanlayer/skills](https://github.com/humanlayer/skills).
+MIT. pstack is derived from [cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack), Copyright (c) 2026 Lauren Tan, MIT, see [third_party/pstack/LICENSE](third_party/pstack/LICENSE). `html-plan` is from [anthropics/claude-plugins-community](https://github.com/anthropics/claude-plugins-community/tree/main/html-plan), Copyright (c) 2026 Thariq Shihipar, MIT, see [third_party/html-plan/LICENSE](third_party/html-plan/LICENSE). `eli5` adapted from the same community repo; `show-me` from [humanlayer/skills](https://github.com/humanlayer/skills). [UPSTREAM.md](UPSTREAM.md) records every upstream commit.
