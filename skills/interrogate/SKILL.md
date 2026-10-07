@@ -33,7 +33,7 @@ Write one clear paragraph. If you're unsure about the intent, ask the user befor
 
 ## Step 3, Spawn Reviewers
 
-Each spawn below names a `role` from the pstack profile (written by `/setup-pstack`, always in your context). Spawn it with the profile's `spawn` recipe, passing that role's value as the model. A role with no line, or the value `inherit`, means no model override. If the harness rejects the model, retry with `inherit` and say so. With no profile in context, follow the fallback in the `setup-pstack` skill (`references/profile-template.md`) and tell the user once that `/setup-pstack` was not run.
+Each spawn below names a `role` from the pstack profile (written by `/setup-pstack`, always in your context). Spawn it with the profile's `spawn` recipe, passing that role's value as the model. A role with no line, or the value `inherit`, means no model override. If the harness rejects the model, retry with `inherit` and say so. A role valued `ask` is chosen per run: before the first spawn, list the available models with the profile's `models` recipe, use the profile's `ask` to have the user pick a model for each entry of that role (offer `inherit` too, and let them choose how many entries), and ask once for every `ask` role this skill uses. Use the answers for this run only, and treat no answer as `inherit`. With no profile in context, follow the fallback in the `setup-pstack` skill (`references/profile-template.md`) and tell the user once that `/setup-pstack` was not run.
 
 Launch all reviewers in a single message. Use the `interrogate reviewers` role, one reviewer per entry, extending or shrinking the Reviewer A/B labels to the configured entry count. With no line, spawn Reviewer A and Reviewer B, both with no model override.
 

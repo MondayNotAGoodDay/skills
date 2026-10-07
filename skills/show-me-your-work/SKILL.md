@@ -64,7 +64,7 @@ Correct the log, not the story. The audit never edits or removes a row, even an 
 
 ## Cross-model review of the trail
 
-Before handing back, spawn a subagent with `role`: `arena cross-judge pool` and `access`: `full` (it runs the `history` recipe, and you tell it to only read), using an entry whose model family differs from the one that did the work when possible. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript (via the `history` recipe), then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky.
+Before handing back, spawn a subagent with `role`: `arena cross-judge pool` and `access`: `full` (it runs the `history` recipe, and you tell it to only read), using an entry whose model family differs from the one that did the work when possible. If the role is `ask`, list the models with the profile's `models` recipe and have the user pick one with the profile's `ask`, preferring a different family from the parent's, and treat no answer as `inherit`. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript (via the `history` recipe), then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky.
 
 - Decisions logged with weak or absent evidence.
 - Verification steps skipped or claimed without proof in the transcript.

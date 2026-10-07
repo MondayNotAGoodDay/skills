@@ -66,7 +66,7 @@ Build the role table from `references/roles.md`.
 
 1. Classify the available models into `code`, `judgment`, and the families a `panel` needs, using the class definitions in that file.
 2. Fill each role from its class. Apply the budget's target effort in the way step 2 found. If the exact effort is not offered, use the highest one at or below the target for that model.
-3. If only one model is available, every role is `inherit` and panels are a single entry. Say that panels will not be model-diverse.
+3. If only one model is available, every role is `inherit` and panels are a single entry. Say that panels will not be model-diverse, and offer `ask` for the panel roles so the user picks models each time the skill runs.
 4. Show the table. Mark any value you could not confirm. Ask whether to accept it or change specific roles. Offer the available models plus `inherit` (run this role on the parent's model).
 
 On a re-run, keep every role the user changed by hand.

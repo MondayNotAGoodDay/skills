@@ -6,7 +6,7 @@ Skills refer to these exact role names. Setup writes one line per role into the 
 
 - **code**: a strong, fast agentic coding model. Good at reading a codebase and making edits with tool calls. Cost and latency matter because these roles fan out.
 - **judgment**: the strongest reasoning and writing model available. Used for synthesis, review, prose, and the hardest changes. Slow and costly is acceptable.
-- **panel**: a list that makes independent attempts or reviews diverse. Take one `judgment` model and one `code` model from different model families when the harness offers two or more. Use `inherit` for a family you cannot confirm. Add a third family only when the user asks.
+- **panel**: a list that makes independent attempts or reviews diverse. Take one `judgment` model and one `code` model from different model families when the harness offers two or more. Use `inherit` for a family you cannot confirm. Add a third family only when the user asks. A panel role may instead be `ask`, so the skill has the user pick models each run.
 
 When the harness offers one model, every role is `inherit`. When it offers several, never choose the cheapest model for a `judgment` role.
 

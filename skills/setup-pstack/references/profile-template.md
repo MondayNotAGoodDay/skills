@@ -7,7 +7,7 @@ The first three comment lines define the vocabulary for every pstack skill. Keep
 ````markdown
 <!-- pstack:begin v1 -->
 <!-- pstack profile. Written by /setup-pstack. Re-run it to change anything here. -->
-<!-- Skills say: spawn <role> with access <read-only|full>, run <background|foreground>, isolation <local|cloud>, persona, resume. A role's value is a model id, or `inherit` for no model override. -->
+<!-- Skills say: spawn <role> with access <read-only|full>, run <background|foreground>, isolation <local|cloud>, persona, resume. A role's value is a model id, `inherit` for no model override, or `ask` to have the user pick models when the skill runs. -->
 <!-- Skills say: ask, history, loop, models. Each is a capability below. `unsupported` means use its fallback. -->
 harness: {name and version if known}
 budget: {unlimited|large|medium|small} ({effort})
@@ -44,5 +44,6 @@ A pstack skill that finds no profile does this and tells the user once that `/se
 ## Role value grammar
 
 - `inherit`: the role runs on the parent's model. No override.
+- `ask`: the skill asks the user at invocation. It lists the harness's models, the user picks one per entry, and the choice lasts for that run. Meant for panel roles that should be model-diverse. No answer means `inherit`.
 - `<model id>`: exactly as the harness spells it, effort included if the harness spells it that way.
 - `<id>, <id>, ...`: a panel. One subagent per entry. An `inherit` entry counts toward the fan-out.
