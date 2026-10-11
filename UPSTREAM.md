@@ -4,10 +4,10 @@
 
 Forked from [cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack) `pstack/` (MIT, Lauren Tan / Cursor).
 
-- Version: 0.15.15
-- Commit: d0ef80d86795816da932a153458c5dbe192d294e (2026-10-06)
+- Version: 0.15.17
+- Commit: 978ca6e9c0e012047cd5058b8e829240336e704e (2026-10-10)
 
-The first commit after this file lands is the verbatim import. Every later commit is the harness-neutral rewrite, so `git diff <import>..HEAD` shows exactly what changed.
+The verbatim import is `68f93b3`, pinned to upstream `d0ef80d` (0.15.15, 2026-10-07). The harness-neutral rewrite and the `ask` role were written on that import. 0.15.16 (distilled prompts, [#538](https://github.com/cursor/plugins/pull/538)) and 0.15.17 (`/ketchup`, [#539](https://github.com/cursor/plugins/pull/539)) were ported onto the fork: the prose follows upstream, and spawn blocks stay on the profile.
 
 Not imported: `automations/benny` (depends on Cursor Automations), `assets/logo.png`.
 
