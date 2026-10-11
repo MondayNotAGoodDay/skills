@@ -49,6 +49,7 @@ Without a profile, skills still run. They spawn a general-purpose subagent with 
 | [how](skills/how/SKILL.md) / [why](skills/why/SKILL.md) | How a subsystem works / why it was built that way. |
 | [architect](skills/architect/SKILL.md) / [arena](skills/arena/SKILL.md) / [swarm](skills/swarm/SKILL.md) | Settle a shape / N parallel attempts / N parallel workers. |
 | [interrogate](skills/interrogate/SKILL.md) | Multi-reviewer review of a branch or PR. |
+| [ketchup](skills/ketchup/SKILL.md) | Catch up on this chat since your last message, with enough context to decide each action item. |
 
 The rest (`blast-radius`, `recall`, `reflect`, `tdd`, `unslop`, `no-comments`, the 24 `principle-*` skills, and others) are in [skills/](skills/).
 
@@ -59,7 +60,7 @@ The rest (`blast-radius`, `recall`, `reflect`, `tdd`, `unslop`, `no-comments`, t
 - Transcript, loop, and question tools are capabilities in the profile, not named tools.
 - Not ported: `make-bot-ui` and the Benny automation pack. Both depend on Cursor Automations.
 
-[UPSTREAM.md](UPSTREAM.md) records the upstream commit. The first commit after it is the verbatim import, so `git diff` shows exactly what changed.
+[UPSTREAM.md](UPSTREAM.md) records the upstream commit this fork follows. Prompt prose tracks that commit. Spawn blocks stay on the profile.
 
 ## Other skills
 
