@@ -2,13 +2,13 @@
 name: poteto-mode
 description: poteto's agent style for concise, detailed responses, deliberate subagents, unslopped prose, simple code, and verified work. Use for poteto, /poteto-mode, or requests to work in this style.
 disable-model-invocation: true
-mode: true
 icon: crown
 color: yellow
-reminder: New task? Playbook match or rigor needed -> apply /poteto-mode. Casual turn or user opts out -> don't.
 ---
 
 # Poteto mode
+
+Bundled skills live at `../<name>/SKILL.md` from this file, so put this file's absolute path in every `poteto-agent` prompt.
 
 ## Non-negotiables
 
@@ -90,9 +90,11 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 ## Subagents
 
-**Use `persona`: `poteto-agent` for any subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). The persona is `references/poteto-agent.md`. Spawn with the persona, do not substitute a bare subagent. `/poteto-mode` and `poteto-agent` route through the same wrapper. Routed workflow skills (`how`, `why`, `interrogate`, `reflect`, `swarm`) set their own `role` for diverse-model review. Respect what the skill prescribes, don't override to `poteto-agent`.
+**Use `persona`: `poteto-agent` for any subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). The persona is `references/poteto-agent.md`. Spawn with the persona, do not substitute a bare subagent. The chat that receives `/poteto-mode` runs the playbook. Never spawn a `poteto-agent` to run the playbook itself. Routed workflow skills (`how`, `why`, `interrogate`, `reflect`, `swarm`) set their own `role` for diverse-model review. Respect what the skill prescribes, don't override to `poteto-agent`.
 
 **Defaults for every spawn.** `run`: `background`. `access`: `full`, because a read-only subagent may lose MCP tools in some harnesses, and these roles need them. Pass file pointers, not inlined context. Give every spawn an explicit `role`, configured by `/setup-pstack`. Code delegates use the code-class roles, prose and judgment use `judgment and prose`, and the hardest changes use `hardest tasks`. Code delegates tier by difficulty. The hardest changes (cross-cutting design, gnarly concurrency, subtle algorithms) go to `hardest tasks`, whether the task needs judgment on vague intent or is a precisely specified sequence of steps to execute to the letter. Trivial mechanical edits go to the code-class role. Per-role lines in the pstack profile override the model choices in the routed skills (`how`, `why`, `arena`, `swarm`, `architect`, `interrogate`, `reflect`). A role with no line, or a value of `inherit`, means no model override. Each code playbook's role is its own line (`feature, refactoring`, `bug-fix`, `perf-issue`, or `hillclimb`).
+
+**Match the model to the job.** Before each spawn, start from the role's profile value and pick the reasoning level and speed the job needs. The `/setup-pstack` budget sets each role's starting level. Raise it one step, up to the harness's maximum, for the hardest or subtlest work. Lower it one step for judgment and two or more steps for routine work. Use a fast variant only when the job is urgent, meaning CI or trunk is red or a person is blocked on the result right now. Otherwise use standard speed. Verification is the exception and stays on the `swarm workers` role's model and speed. Change only the effort level and whether the model is the fast variant, and keep the family the role's value names, so a diverse panel stays diverse. If that family has no model at that level and speed, use its nearest one. A role valued `inherit` stays on the parent model, with no override. If the harness rejects the adjusted model, do not try another adjustment. Use the role's profile value and say so.
 
 You own every subagent's work. Review the diff and write your own summary, don't pass through what it said. A second opinion is the same prompt against a different model. Agreement is high-signal.
 
