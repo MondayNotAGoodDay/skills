@@ -30,7 +30,7 @@ Launch all reviewers in a single message, one per entry on the `interrogate revi
 
 Each reviewer gets `role`: `interrogate reviewers` (this reviewer's entry), `access`: `read-only`, and `run`: `foreground`. An `inherit` entry runs on the parent model. Do not block the review on a model problem.
 
-Read `references/reviewer-prompt.md` and fill in the same template for every reviewer with the stated intent, the diff or file contents, the rubric from `references/rubric.md`, and the code-quality lens from `references/code-quality-review.md`.
+Read `references/reviewer-prompt.md` and fill in the same template for every reviewer with the stated intent, the diff or file contents, the rubric from `references/rubric.md`, and the code-quality lens from `references/code-quality-review.md`. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.
 
 ## Step 4, Synthesize
 

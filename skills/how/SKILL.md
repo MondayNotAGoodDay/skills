@@ -10,7 +10,7 @@ Explore the codebase to answer "how does X work?" questions. Produce architectur
 
 Each spawn below names a `role` from the pstack profile (written by `/setup-pstack`, always in your context). Spawn it with the profile's `spawn` recipe, passing that role's value as the model. A role with no line, or the value `inherit`, means no model override. If the harness rejects the model, retry with `inherit` and say so. With no profile in context, follow the fallback in the `setup-pstack` skill (`references/profile-template.md`) and tell the user once that `/setup-pstack` was not run.
 
-Explorers use the `how explorer` role. Every explainer uses the `how explainer` role. `access`: `read-only`. `run`: `foreground`.
+Explorers use the `how explorer` role. Every explainer uses the `how explainer` role. `access`: `read-only`. `run`: `foreground`. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.
 
 ## 1. Assess complexity
 

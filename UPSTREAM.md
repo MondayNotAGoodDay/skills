@@ -4,10 +4,10 @@
 
 Forked from [cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack) `pstack/` (MIT, Lauren Tan / Cursor).
 
-- Version: 0.15.17
-- Commit: 978ca6e9c0e012047cd5058b8e829240336e704e (2026-10-10)
+- Version: 0.15.25
+- Commit: 6ce45c59b9301a638c1fe1a7b8dc2a82b650898f (2026-10-14)
 
-The verbatim import is `68f93b3`, pinned to upstream `d0ef80d` (0.15.15, 2026-10-07). The harness-neutral rewrite and the `ask` role were written on that import. 0.15.16 (distilled prompts, [#538](https://github.com/cursor/plugins/pull/538)) and 0.15.17 (`/ketchup`, [#539](https://github.com/cursor/plugins/pull/539)) were ported onto the fork: the prose follows upstream, and spawn blocks stay on the profile.
+The verbatim import is `68f93b3`, pinned to upstream `d0ef80d` (0.15.15, 2026-10-07). The harness-neutral rewrite and the `ask` role were written on that import. Later releases were ported onto the fork: the prose follows upstream, and spawn blocks stay on the profile. 0.15.16 (distilled prompts, [#538](https://github.com/cursor/plugins/pull/538)) and 0.15.17 (`/ketchup`, [#539](https://github.com/cursor/plugins/pull/539)) landed first. 0.15.25 ([#614](https://github.com/cursor/plugins/pull/614)) rolls up the releases after that, through `/in-your-own-words`, `/sharpen`, the shorter visual `/ketchup`, and the playbook cuts that drop Graphite. Main also has [#633](https://github.com/cursor/plugins/pull/633) after this pin. That commit does not bump the version, so this fork stays on the 0.15.25 tree.
 
 Not imported: `automations/benny` (depends on Cursor Automations), `assets/logo.png`.
 
