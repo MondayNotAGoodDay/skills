@@ -53,6 +53,7 @@ Without a profile, skills still run. They spawn a general-purpose subagent with 
 | [in-your-own-words](skills/in-your-own-words/SKILL.md) | Play back the goal and the problem before the work starts. |
 | [sharpen](skills/sharpen/SKILL.md) | Aim a task the way a top expert would, at the real outcome, without overspecifying it. |
 | [create-formal-verification-skill](skills/create-formal-verification-skill/SKILL.md) | Prove one property tests rarely reach, and leave a project skill that rechecks it. |
+| [maintain-formal-verification-skill](skills/maintain-formal-verification-skill/SKILL.md) | After covered code changes, bring the formal verification back in line and say whether a failure is drift or a bug. |
 
 The rest (`blast-radius`, `recall`, `reflect`, `tdd`, `unslop`, `no-comments`, the 24 `principle-*` skills, and others) are in [skills/](skills/).
 
