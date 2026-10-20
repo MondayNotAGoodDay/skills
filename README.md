@@ -51,7 +51,7 @@ Without a profile, skills still run. They spawn a general-purpose subagent with 
 | [interrogate](skills/interrogate/SKILL.md) | Multi-reviewer review of a branch or PR. |
 | [ketchup](skills/ketchup/SKILL.md) | Catch up on what changed in this chat since your last message, in plain words and small visuals, with every waiting call listed so you can decide from the reply alone. |
 | [in-your-own-words](skills/in-your-own-words/SKILL.md) | Play back the goal and the problem before the work starts. |
-| [sharpen](skills/sharpen/SKILL.md) | Aim a task the way a top expert would, at the real outcome, without overspecifying it. |
+| [sharpen](skills/sharpen/SKILL.md) | Rewrite a prompt deeper, not bigger, before you send it. Hands back the rewrite, leaves your choices open, and doesn't do the task. |
 | [create-formal-verification-skill](skills/create-formal-verification-skill/SKILL.md) | Prove one property tests rarely reach, and leave a project skill that rechecks it. |
 | [maintain-formal-verification-skill](skills/maintain-formal-verification-skill/SKILL.md) | After covered code changes, bring the formal verification back in line and say whether a failure is drift or a bug. |
 
