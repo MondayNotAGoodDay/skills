@@ -54,6 +54,7 @@ Without a profile, skills still run. They spawn a general-purpose subagent with 
 | [sharpen](skills/sharpen/SKILL.md) | Rewrite a prompt deeper, not bigger, before you send it. Hands back the rewrite, leaves your choices open, and doesn't do the task. |
 | [create-formal-verification-skill](skills/create-formal-verification-skill/SKILL.md) | Prove one property tests rarely reach, and leave a project skill that rechecks it. |
 | [maintain-formal-verification-skill](skills/maintain-formal-verification-skill/SKILL.md) | After covered code changes, bring the formal verification back in line and say whether a failure is drift or a bug. |
+| [statechart](skills/statechart/SKILL.md) | Draw what the user sees as a Mermaid statechart from a TLA+ model, with each bug as a numbered path. Also turn an agreed chart into a TLA+ skeleton, or audit the code against a spec. |
 
 The rest (`blast-radius`, `recall`, `reflect`, `tdd`, `unslop`, `no-comments`, the 24 `principle-*` skills, and others) are in [skills/](skills/).
 
