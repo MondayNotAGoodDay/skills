@@ -48,9 +48,9 @@ Without a profile, skills still run. They spawn a general-purpose subagent with 
 | [poteto-help](skills/poteto-help/SKILL.md) | New to pstack, or unsure which skill fits. |
 | [how](skills/how/SKILL.md) / [why](skills/why/SKILL.md) | How a subsystem works / why it was built that way. |
 | [architect](skills/architect/SKILL.md) / [arena](skills/arena/SKILL.md) / [swarm](skills/swarm/SKILL.md) | Settle a shape / N parallel attempts / N parallel workers. |
-| [interrogate](skills/interrogate/SKILL.md) | Multi-reviewer review of a branch or PR. |
+| [interrogate](skills/interrogate/SKILL.md) | Adversaries try to break a branch or PR, and only findings a run proves survive. |
 | [ketchup](skills/ketchup/SKILL.md) | Catch up on what changed in this chat since your last message, in plain words and small visuals, with every waiting call listed so you can decide from the reply alone. |
-| [ketchup-video](skills/ketchup-video/SKILL.md) | The `/ketchup` catch-up as a short silent video of slides, with the calls waiting on you as text under it. |
+| [ketchup-video](skills/ketchup-video/SKILL.md) | The `/ketchup` catch-up as a short subtitled video of slides, with the calls waiting on you as text under it. |
 | [in-your-own-words](skills/in-your-own-words/SKILL.md) | Play back the goal and the problem before the work starts. |
 | [sharpen](skills/sharpen/SKILL.md) | Rewrite a prompt deeper, not bigger, before you send it. Hands back the rewrite, leaves your choices open, and doesn't do the task. |
 | [create-formal-verification-skill](skills/create-formal-verification-skill/SKILL.md) | Prove one property tests rarely reach, and leave a project skill that rechecks it. |

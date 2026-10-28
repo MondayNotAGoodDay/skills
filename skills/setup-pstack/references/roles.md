@@ -27,7 +27,7 @@ When the harness offers one model, every role is `inherit`. When it offers sever
 | `reflect tooling` | code | reflect |
 | `reflect judgment, divergent, synthesizer` | judgment | reflect |
 | `arena runners` | panel | arena |
-| `arena cross-judge pool` | panel | arena. Arena picks one entry whose family differs from the parent's when possible |
+| `arena cross-judge pool` | panel | arena. Arena runs one judge. It tries only entries from a family other than the parent's, in list order, so order the list by preference. An `inherit` entry never judges |
 | `swarm workers` | code | swarm. The default for every worker unless a race assigns a model per arm |
 | `architect runners` | panel | architect |
 | `interrogate reviewers` | panel | interrogate |

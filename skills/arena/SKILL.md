@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Arena
 
-Each spawn below names a `role` from the pstack profile (written by `/setup-pstack`, always in your context). Spawn it with the profile's `spawn` recipe, passing that role's value as the model. A role with no line, or the value `inherit`, means no model override. If the harness rejects the model, retry with `inherit` and say so. A role valued `ask` is chosen per run: before the first spawn, list the available models with the profile's `models` recipe, use the profile's `ask` to have the user pick a model for each entry of that role (offer `inherit` too, and let them choose how many entries), and ask once for every `ask` role this skill uses. Use the answers for this run only, and treat no answer as `inherit`. With no profile in context, follow the fallback in the `setup-pstack` skill (`references/profile-template.md`) and tell the user once that `/setup-pstack` was not run.
+Each spawn below names a `role` from the pstack profile (written by `/setup-pstack`, always in your context). Spawn it with the profile's `spawn` recipe, passing that role's value as the model. A role with no line, or the value `inherit`, means no model override. If the harness rejects the model, follow that phase's fallback. When the phase names none, retry with `inherit` and say so. A role valued `ask` is chosen per run: before the first spawn, list the available models with the profile's `models` recipe, use the profile's `ask` to have the user pick a model for each entry of that role (offer `inherit` too, and let them choose how many entries), and ask once for every `ask` role this skill uses. Use the answers for this run only, and treat no answer as `inherit`. With no profile in context, follow the fallback in the `setup-pstack` skill (`references/profile-template.md`) and tell the user once that `/setup-pstack` was not run.
 
 Open a todolist with one entry per phase (Frame, Fan out, Cross-judge, Pick, Graft, Verify) before launching anything.
 
@@ -16,7 +16,7 @@ Every candidate gets the same prompt, so the prompt is the contract.
 
 1. State the artifact each candidate is producing.
 2. Derive the rubric, 3-6 concrete gradeable criteria for what success looks like on *this* task. It is the picker's tool in Phase D. Candidates only see the task.
-3. Pick the runners. Use the `arena runners` role value from the pstack profile, one runner per entry. An `inherit` entry means the parent model, so pass no model override for it. If the harness rejects an entry, run that seat on `inherit` and say so. Spawn more runners when the arena covers multiple design directions. Use the same model N times when the work is generation-bound rather than judgment-sensitive. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.
+3. Pick the runners. Use the `arena runners` role value from the pstack profile, one runner per entry. An `inherit` entry means the parent model, so pass no model override for it. If the harness rejects an entry, retry that seat on another model of the same family and say so. If none runs, drop the seat and say so. If dropped seats leave fewer than two runners, add runners until there are two, or one when the line has one entry. Run each added runner on a remaining runner's model, or with no model override so it runs on the parent model when none remain, and say so. Spawn more runners when the arena covers multiple design directions. Use the same model N times when the work is generation-bound rather than judgment-sensitive. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.
 4. Give each candidate its own output location (a git worktree where possible, otherwise `/tmp/arena-<slug>/candidate-<n>/`), per the **separate-before-serializing-shared-state** principle skill.
 
 ## Phase B: Fan out
@@ -27,11 +27,11 @@ If a candidate produces no output, proceed with N-1 and note the dropout.
 
 ## Phase C: Cross-judge
 
-After all Phase B candidates complete, choose one entry from the `arena cross-judge pool` role value. Prefer a different model family from the parent's. Spawn one judge subagent with `access`: `read-only` on that entry. It sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Don't spawn it while candidates are still writing.
+After all Phase B candidates complete, choose one entry from the `arena cross-judge pool` role value. Spawn one judge subagent with `access`: `read-only`. The judge is never from the parent's model family. Try only the entries from another family, in pool order. An `inherit` entry is the parent model, so it never judges. If the harness rejects an entry, retry a model of the same family at the closest level or speed, or move to the next entry when there is none. If no entry from another family runs, skip the judge, pick the base alone in Phase D, and say so. If you do not know the parent's model, try the pool's entries in pool order and say that the family check did not run. The judge sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Don't spawn it while candidates are still writing.
 
 ## Phase D: Pick a base
 
-Read every candidate end to end before picking. Score each against the rubric criterion by criterion, not on holistic feel, and compare with the cross-judge. Agreement on the base confirms the pick. Disagreement means one of you is biased or the rubric was ambiguous. Read both rationales before deciding.
+Read every candidate end to end before picking. Score each against the rubric criterion by criterion, not on holistic feel, and compare with the cross-judge when Phase C ran one. Agreement on the base confirms the pick. Disagreement means one of you is biased or the rubric was ambiguous. Read both rationales before deciding.
 
 Pick the base a future maintainer can extend most easily without breaking invariants. When two feel tied, prefer the cleaner boundary or smaller API, per the Laziness Protocol.
 
@@ -47,4 +47,4 @@ Verify the synthesized artifact like any other output, per the **prove-it-works*
 
 ## Outputs
 
-One synthesized artifact, with a short synthesis note alongside naming the base and why, the cross-judge's verdict, each graft with its source candidate, what was rejected and why, any convergence or dropouts, and the verification result.
+One synthesized artifact, with a short synthesis note alongside naming the base and why, the cross-judge's verdict or that Phase C skipped the judge, each graft with its source candidate, what was rejected and why, any convergence or dropouts, and the verification result.
