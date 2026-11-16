@@ -1,5 +1,7 @@
 # skills
 
+English | [中文](README.zh-CN.md)
+
 Personal agent skills for the open [skills.sh](https://skills.sh) ecosystem. Includes **pstack**, a harness-neutral fork of [Cursor's pstack](https://github.com/cursor/plugins/tree/main/pstack).
 
 ## Install
@@ -13,7 +15,7 @@ npx skills add MondayNotAGoodDay/skills --skill eli5
 npx skills add MondayNotAGoodDay/skills --skill poteto-mode
 
 # pin a GitHub Release tag (skills.sh treats @vX.Y.Z as a git ref)
-npx skills add MondayNotAGoodDay/skills@v0.1.0 --skill poteto-mode
+npx skills add MondayNotAGoodDay/skills@v0.1.1 --skill poteto-mode
 ```
 
 List without installing:
@@ -37,11 +39,11 @@ Versions are Git tags in the form `vX.Y.Z`. Pushing such a tag runs [`.github/wo
 
 ```bash
 # from an up-to-date main
-git tag -a v0.1.0 -m "v0.1.0"
-git push origin v0.1.0
+git tag -a v0.1.1 -m "v0.1.1"
+git push origin v0.1.1
 ```
 
-Use a later tag for the next release (`v0.1.1`, `v0.2.0`, …). Installs without a tag keep following `main`; pinned installs stay on that tag until the user adds a newer one.
+Use a later tag for the next release (`v0.1.2`, `v0.2.0`, …). Installs without a tag keep following `main`; pinned installs stay on that tag until the user adds a newer one.
 
 ## pstack
 
