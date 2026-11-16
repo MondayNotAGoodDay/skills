@@ -23,7 +23,7 @@ Browse on skills.sh: https://skills.sh/MondayNotAGoodDay/skills
 
 ## pstack
 
-pstack is a set of rigorous engineering workflows: `poteto-mode` routes a task to a playbook, and the other skills (`how`, `why`, `arena`, `swarm`, `interrogate`, the `principle-*` skills) run as the steps need them. Read the [guide](docs/guide/README.md).
+pstack is a set of rigorous engineering workflows: `poteto-mode` routes a task to a playbook, and the other skills (`why`, `arena`, `swarm`, `interrogate`, the `principle-*` skills) run as the steps need them. `/how` is there when you ask for it. Read the [guide](docs/guide/README.md).
 
 Upstream is written for Cursor. This fork runs on any harness (opencode, Devin, Cursor, Claude Code, and others) with one setup step.
 
@@ -35,7 +35,7 @@ Run once per harness:
 /setup-pstack
 ```
 
-Skills never name a harness tool or a model. They say "spawn role X with read-only access" and "ask the user". `/setup-pstack` finds out how your harness does those things by reading its own tool schemas, picks a model per role and a reasoning budget, and writes a short **pstack profile** into the harness's standing instructions. Where a harness binds the model to an agent definition instead of the spawn call (Devin does), it generates the agent files. It then spawns real subagents with the finished recipe to prove it works.
+Skills never name a harness tool or a model. They say "spawn role X with read-only access" and "ask the user". `/setup-pstack` finds out how your harness does those things by reading its own tool schemas, picks a model per role and a reasoning budget, and writes a short **pstack profile** into the harness's standing instructions. Out of the box, code delegates, prose, and judgment prefer Opus 5.5, the hardest changes prefer Fable 5.2, and a review panel prefers one seat each on Fable 5.2, Opus 5.5, and Gemini 4 Carbon. `large` keeps those defaults. A profile without a `defaults: 2` line is from an older setup. The next run replaces the old defaults it recognizes and keeps your other choices. Where a harness binds the model to an agent definition instead of the spawn call (Devin does), it generates the agent files. It then spawns real subagents with the finished recipe to prove it works.
 
 Without a profile, skills still run. They spawn a general-purpose subagent with no model override, or run roles one after another if the harness cannot spawn.
 
@@ -46,13 +46,13 @@ Without a profile, skills still run. They spawn a general-purpose subagent with 
 | [setup-pstack](skills/setup-pstack/SKILL.md) | Adapt pstack to this harness. Run first. |
 | [poteto-mode](skills/poteto-mode/SKILL.md) | Default entry for any task that needs rigor. |
 | [poteto-help](skills/poteto-help/SKILL.md) | New to pstack, or unsure which skill fits. |
-| [how](skills/how/SKILL.md) / [why](skills/why/SKILL.md) | How a subsystem works / why it was built that way. |
+| [how](skills/how/SKILL.md) / [why](skills/why/SKILL.md) | How a subsystem works, from one read-only pass / why it was built that way, from the commits and PR discussions. |
 | [architect](skills/architect/SKILL.md) / [arena](skills/arena/SKILL.md) / [swarm](skills/swarm/SKILL.md) | Settle a shape / N parallel attempts / N parallel workers. |
 | [interrogate](skills/interrogate/SKILL.md) | Adversaries try to break a branch or PR, and only findings a run proves survive. |
 | [ketchup](skills/ketchup/SKILL.md) | Catch up on what changed in this chat since your last message, in plain words and small visuals, with every waiting call listed so you can decide from the reply alone. |
 | [ketchup-video](skills/ketchup-video/SKILL.md) | The `/ketchup` catch-up as a short subtitled video of slides, with the calls waiting on you as text under it. |
 | [in-your-own-words](skills/in-your-own-words/SKILL.md) | Play back the goal and the problem before the work starts. |
-| [sharpen](skills/sharpen/SKILL.md) | Rewrite a prompt deeper, not bigger, before you send it. Hands back the rewrite, leaves your choices open, and doesn't do the task. |
+| [sharpen](skills/sharpen/SKILL.md) | Rewrite a prompt deeper, not bigger, before you send it. The rewrite asks the agent to prototype any choice an experiment can settle, and leaves product and preference choices to you. Doesn't do the task. |
 | [create-formal-verification-skill](skills/create-formal-verification-skill/SKILL.md) | Prove one property tests rarely reach, and leave a project skill that rechecks it. |
 | [maintain-formal-verification-skill](skills/maintain-formal-verification-skill/SKILL.md) | After covered code changes, bring the formal verification back in line and say whether a failure is drift or a bug. |
 | [statechart](skills/statechart/SKILL.md) | Check a TLA+ model and draw what the user sees as a Mermaid statechart, mark each state that breaks a rule, and give the shortest path to each one. |
@@ -61,7 +61,7 @@ The rest (`blast-radius`, `recall`, `reflect`, `tdd`, `unslop`, `no-comments`, t
 
 ### What differs from upstream
 
-- Spawn blocks use `role` / `access` / `run` instead of Cursor's `Task` parameters. Model slugs are gone from every skill. Roles and their model classes live in [setup-pstack/references/roles.md](skills/setup-pstack/references/roles.md).
+- Spawn blocks use `role` / `access` / `run` instead of Cursor's `Task` parameters. Model ids stay in [setup-pstack/references/roles.md](skills/setup-pstack/references/roles.md). Ordinary skill prose does not name them.
 - `poteto-agent` and Comment Sicko are prompt files ([poteto-agent](skills/poteto-mode/references/poteto-agent.md), [comment-sicko](skills/no-comments/references/comment-sicko.md)), not Cursor agent definitions.
 - Transcript, loop, and question tools are capabilities in the profile, not named tools.
 - Not ported: `make-bot-ui` and the Benny automation pack. Both depend on Cursor Automations.

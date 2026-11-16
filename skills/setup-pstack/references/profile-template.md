@@ -7,10 +7,11 @@ The first three comment lines define the vocabulary for every pstack skill. Keep
 ````markdown
 <!-- pstack:begin v1 -->
 <!-- pstack profile. Written by /setup-pstack. Re-run it to change anything here. -->
-<!-- Skills say: spawn <role> with access <read-only|full>, run <background|foreground>, isolation <local|cloud>, persona, resume. A role's value is a model id, `inherit` for no model override, or `ask` to have the user pick models when the skill runs. -->
+<!-- Skills say: spawn <role> with access <read-only|full>, run <background|foreground>, isolation <local|cloud>, persona, resume. A role's value is a model id, `inherit` for no model override, or `ask` to have the user pick models when the skill runs. A skill that names no role passes no model override. -->
 <!-- Skills say: ask, history, loop, models. Each is a capability below. `unsupported` means use its fallback. -->
 harness: {name and version if known}
-budget: {unlimited|large|medium|small} ({effort})
+budget: {unlimited|large|medium|small} ({where an xhigh default lands})
+defaults: 2
 
 ## capabilities
 spawn: {the exact call. Tool name, then each parameter and the value to pass for prompt, model, access, background, resume. Say where the model goes (per call, or fixed by the named agent)}
