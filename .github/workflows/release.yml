@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          body: |
+            Install this release with skills.sh:
+
+            ```bash
+            # track this tag (pin)
+            npx skills add MondayNotAGoodDay/skills@${{ github.ref_name }} --skill '*' -y
+
+            # or one skill
+            npx skills add MondayNotAGoodDay/skills@${{ github.ref_name }} --skill poteto-mode -y
+            ```
+
+            Check / update later:
+
+            ```bash
+            npx skills check
+            npx skills update -y
+            ```
+
+            Note: a pin stays on this tag. To move to a newer release, add the new tag again, or install without a version to track `main`.
