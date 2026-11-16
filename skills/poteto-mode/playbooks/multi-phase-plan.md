@@ -149,7 +149,7 @@ Each live lane runs in its own cloud subagent (profile `spawn.isolation.cloud`) 
 
 ## Appendix D. Links and reading list
 
-<Docs to read before editing. Which PRs get `<skills-dir>/how/SKILL.md` and `<skills-dir>/interrogate/SKILL.md`. The trail per `<skills-dir>/show-me-your-work/SKILL.md`.>
+<Docs to read before editing. Which PRs get `<skills-dir>/interrogate/SKILL.md`. The trail per `<skills-dir>/show-me-your-work/SKILL.md`.>
 ````
 
 **Reply:** the plan path, the PR ids with their dependencies and the review-gated set, what the prototypes proved and what stays unproven, and the check script's output.

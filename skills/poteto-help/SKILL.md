@@ -43,7 +43,7 @@ Installing changes nothing until the user invokes a skill. Only `/setup-pstack` 
 
 If cost is the worry, say where the tokens go and how to spend fewer. pstack spends extra tokens on subagents and review panels. Rerun `/setup-pstack` and pick a smaller budget or cheaper models. A role set to `inherit` runs on the chat's model, which saves tokens when the chat runs on a cheaper model. A shorter panel list runs fewer subagents, one for each entry. Save `/poteto-mode` for work that needs rigor.
 
-pstack runs on any harness once `/setup-pstack` has written the profile. The profile fixes how this harness spawns a subagent, which model each role gets, how to ask the user, how to read this session's transcript, and whether a loop can wake itself. Skills such as `/poteto-mode`, `/how`, `/why`, and `/teach` use those entries and name no harness tool or model. Where the profile says `unsupported`, a skill falls back, for example one pass per user message instead of a loop.
+pstack runs on any harness once `/setup-pstack` has written the profile. The profile fixes how this harness spawns a subagent, which model each role gets, how to ask the user, how to read this session's transcript, and whether a loop can wake itself. Skills such as `/poteto-mode`, `/how`, and `/teach` use those entries and name no harness tool or model. `/why` answers in the same chat. Where the profile says `unsupported`, a skill falls back, for example one pass per user message instead of a loop.
 
 ## Start a task with `/poteto-mode`
 
