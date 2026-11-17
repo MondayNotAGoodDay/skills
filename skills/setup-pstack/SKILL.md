@@ -47,33 +47,36 @@ Look for an existing managed block (`<!-- pstack:begin -->`) in the standing ins
 - Any harness: a hand-written section titled `pstack subagent models`.
 - WorkBuddy: a `## pstack model configuration` section in `~/.workbuddy/MEMORY.md`.
 
-A role not in `references/roles.md`, such as `how explorer` or `why investigators`, is from a retired role. Drop it and tell the user.
+A role not in `references/roles.md` is retired. Drop the line and tell the user. An existing line for `how explorer`, `why investigators`, `hardest tasks`, `architect runners`, `reflect tooling`, or `reflect judgment, divergent, synthesizer` is one of those retired roles. The next run drops it.
 
-A profile, or a legacy rule, without a `defaults: 2` line comes from an older setup. That setup wrote a line for every role, so some of its values are old defaults, not choices. An old slug is one that matches `grok-*`. Before step 4, replace these values with the role's default from `references/roles.md`:
+A profile, or a legacy rule, without a `defaults: 3` line comes from an older setup. A legacy Cursor rule writes that marker as `# defaults: 3`. That setup wrote a line for every role, so some of its values are old defaults, not choices. Before step 4, replace these values with the role's default from `references/roles.md`:
 
-- An old slug in `feature, refactoring`, `bug-fix`, `perf-issue`, `hillclimb`, `reflect tooling`, or `swarm workers`.
-- A `claude-opus-*` value in `hardest tasks`.
-- In a panel role (`arena runners`, `arena cross-judge pool`, `architect runners`, `interrogate reviewers`), a list of exactly one `claude-opus-*` entry and one old slug, in either order. In any other list, each old slug becomes the `swarm workers` default from that file.
+- An `arena cross-judge pool` list of exactly one `claude-fable-*` entry, one `claude-opus-*` entry, and one `gemini-*` entry, in any order, takes that role's current list. Fable and Opus are one vendor, so the Fable entry could judge only where the Opus entry also could.
+- A budget of `unlimited` becomes `large`, because no role runs above `xhigh`.
+
+If that profile or rule also has no `defaults: 2` line, keep the earlier migration. An old slug is one that matches `grok-*`. Replace these values with the role's default from `references/roles.md`:
+
+- An old slug in `feature, refactoring`, `bug-fix`, `perf-issue`, `hillclimb`, or `swarm workers`.
+- In a panel role (`arena runners`, `arena cross-judge pool`, `interrogate reviewers`), a list of exactly one `claude-opus-*` entry and one old slug, in either order. In any other list, each old slug becomes the `swarm workers` default from that file.
 
 Every other value is the user's choice and stays, including an old slug in any other role and every `inherit`, `ask`, `inherit-parent`, or `auto` value. When you import a legacy rule, keep `inherit-parent` and `auto` as `inherit`. Tell the user which values you replaced.
 
 ### 4. Budget
 
-Ask for a budget. Name the current one when there is one. With none, say `large` matches the defaults. The four labels name where a role whose default effort is `xhigh` lands. Each role's target is its own default effort, moved by that many steps.
+Ask for a budget. Name the current one when there is one. With none, say `large` matches the defaults. Offer these three, and only these three. The labels name where a role whose default effort is `xhigh` lands. Each role's target is its own default effort, moved by that many steps.
 
-- `unlimited` raises the default one step, up to max
-- `large` keeps the default
-- `medium` lowers the default one step
-- `small` lowers the default two steps
+- `large` keeps the default, which lands at xhigh
+- `medium` lowers the default one step, which lands at high
+- `small` lowers the default two steps, which lands at medium
 
-The ladder is `max` > `xhigh` > `high` > `medium` > `low`. A target at either end stays there. Most defaults are `xhigh`. `hardest tasks` starts at `max`. The panel roles and `swarm workers` start at `high`. Where the harness cannot control effort, the budget only decides how strong a model to pick, and you say so.
+The ladder is `xhigh` > `high` > `medium` > `low`. No role runs above `xhigh`, and a target at the bottom stays there. Most defaults are `xhigh`. The panel roles and `swarm workers` start at `high`. Where the harness cannot control effort, the budget only decides how strong a model to pick, and you say so.
 
 ### 5. Pick models
 
 Build the role table from `references/roles.md`.
 
-1. Start from each role's default id and default effort in that file. Families are the ones Phase A of the **arena** skill defines, so Fable is its own family, apart from the other Claude models.
-2. Move each role's default effort by the budget's steps, panel entries included. The effort token is the last token of the id, or the token before a trailing `fast`. If the result is not an available model, use the same family's available model with the highest effort at or below the target, else mark the role as needing a choice. Gemini tops out at `high`, so a higher target stays at `high`. Fable 5.2 and Gemini have no fast variant, so never write one. `inherit` and `ask` do not change. On a re-run, keep a role the user changed by family, list, or alias, then set that role's effort token to its budget target.
+1. Start from each role's default id and default effort in that file. On a re-run, rebuild every role the user did not change by family, list, or alias from that role's current default, then apply the budget. Those defaults are the fast variants the file records for Opus 5.5. Families are the ones Phase A of the **arena** skill defines, so Fable is its own family, apart from the other Claude models.
+2. Move each role's default effort by the budget's steps, panel entries included. The effort token is the last token of the id, or the token before a trailing `fast`. If the result is not an available model, use the same family's available model with the highest effort at or below the target, else mark the role as needing a choice. No role runs above `xhigh`. Gemini tops out at `high`, so a higher target stays at `high`. Fable 5.2 and Gemini have no fast variant, so never write one. Opus 5.5 always keeps the fast variant its default uses. `inherit` and `ask` do not change. A role the user changed by family, list, or alias keeps that choice, then takes the budget's effort token.
 3. `arena cross-judge pool` is a list, and Arena runs one judge. Order it by preference. Arena tries only values from a vendor other than the parent's, in that order. Fable and the other Claude models are one vendor. An `inherit` value never judges.
 4. If only one model is available, every role is `inherit` and panels are a single entry. Say that panels will not be model-diverse, and offer `ask` for the panel roles so the user picks models each time the skill runs.
 5. Show the table. Mark any value you could not confirm. Also list each role step 3 dropped. Ask whether to accept it or change specific roles. Offer the available models plus `inherit` (run this role on the parent's model).
@@ -92,7 +95,7 @@ Record the generated names in the profile's `agents` line so a re-run can clean 
 
 ### 7. Write the profile
 
-1. Fill `references/profile-template.md` with the values from steps 2 to 6. Keep it under 45 lines. The block is in context every session.
+1. Fill `references/profile-template.md` with the values from steps 2 to 6. Keep the `# defaults: 3` line. Keep the block under 45 lines. The block is in context every session.
 2. Choose the target, in this order: the harness's user-level standing instructions file, then the project's `AGENTS.md` with the user's consent. If neither exists, write `~/.config/pstack/profile.md` and tell the user which file to include.
 3. Replace the text between `<!-- pstack:begin -->` and `<!-- pstack:end -->`, or append the block. Remove legacy forms found in step 3. Touch nothing else in the file.
 4. Show the user the final block and the file path.
