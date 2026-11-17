@@ -59,9 +59,11 @@ Run once per harness:
 /setup-pstack
 ```
 
-Skills never name a harness tool or a model. They say "spawn role X with read-only access" and "ask the user". `/setup-pstack` finds out how your harness does those things by reading its own tool schemas, picks a model per role and a reasoning budget, and writes a short **pstack profile** into the harness's standing instructions. Out of the box, code delegates, prose, and judgment prefer Opus 5.5, the hardest changes prefer Fable 5.2, and a review panel prefers one seat each on Fable 5.2, Opus 5.5, and Gemini 4 Carbon. `large` keeps those defaults. A profile without a `defaults: 2` line is from an older setup. The next run replaces the old defaults it recognizes and keeps your other choices. Where a harness binds the model to an agent definition instead of the spawn call (Devin does), it generates the agent files. It then spawns real subagents with the finished recipe to prove it works.
+Skills never name a harness tool or a model. They say "spawn role X with read-only access" and "ask the user". `/setup-pstack` finds out how your harness does those things by reading its own tool schemas, picks a model per role and a reasoning budget, and writes a short **pstack profile** into the harness's standing instructions. Out of the box, code delegates, prose, and judgment prefer Opus 5.5 at xhigh, and no role runs above xhigh. Outside a review panel, Fable 5.2 runs only when you name it or after two Opus 5.5 runs of the same brief fail. A review panel prefers one seat each on Fable 5.2, Opus 5.5, and Gemini 4 Carbon. `large` keeps those defaults. The profile carries a `# defaults: 3` line. A profile without it is from an older setup. The next run replaces the old defaults it recognizes and keeps your other choices. Where a harness binds the model to an agent definition instead of the spawn call (Devin does), it generates the agent files. It then spawns real subagents with the finished recipe to prove it works.
 
 Without a profile, skills still run. They spawn a general-purpose subagent with no model override, or run roles one after another if the harness cannot spawn.
+
+`/poteto-mode` matches one of twenty-two playbooks. Large, cross-cutting, or unattended work goes to `figure-it-out`. A started agent's kickoff points at [worker.md](skills/poteto-mode/worker.md). `/architect` sketches two shapes. `/reflect` reads the transcript itself and waits before it edits a skill.
 
 ### Entry points
 
@@ -71,7 +73,7 @@ Without a profile, skills still run. They spawn a general-purpose subagent with 
 | [poteto-mode](skills/poteto-mode/SKILL.md) | Default entry for any task that needs rigor. |
 | [poteto-help](skills/poteto-help/SKILL.md) | New to pstack, or unsure which skill fits. |
 | [how](skills/how/SKILL.md) / [why](skills/why/SKILL.md) | How a subsystem works, from one read-only pass / why it was built that way, from the commits and PR discussions. |
-| [architect](skills/architect/SKILL.md) / [arena](skills/arena/SKILL.md) / [swarm](skills/swarm/SKILL.md) | Settle a shape / N parallel attempts / N parallel workers. |
+| [architect](skills/architect/SKILL.md) / [arena](skills/arena/SKILL.md) / [swarm](skills/swarm/SKILL.md) | Sketch two shapes, and run arena when the design is large or contested / N parallel attempts / N parallel workers. |
 | [interrogate](skills/interrogate/SKILL.md) | Adversaries try to break a branch or PR, and only findings a run proves survive. |
 | [ketchup](skills/ketchup/SKILL.md) | Catch up on what changed in this chat since your last message, in plain words and small visuals, with every waiting call listed so you can decide from the reply alone. |
 | [ketchup-video](skills/ketchup-video/SKILL.md) | The `/ketchup` catch-up as a short subtitled video of slides, with the calls waiting on you as text under it. |

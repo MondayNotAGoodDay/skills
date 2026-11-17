@@ -36,7 +36,7 @@ Source: docs.devin.ai/cli (subagents, configuration, skills), read 2026-10.
 Source: the upstream pstack plugin (cursor/plugins), which was written for it.
 
 - Spawn: tool `Task` with `subagent_type`, `model`, `readonly`, `run_in_background`, `environment` (`cloud` or `local`), resume by agent id.
-- Models bind per call. Ids look like `<family>-<version>-<effort>`.
+- Models bind per call. Ids look like `<family>-<version>-<effort>`, and an Opus 5.5 id keeps a trailing `fast`. Effort stops at `xhigh`. The role defaults are in `references/roles.md`.
 - Ask: `AskQuestion`.
 - Standing instructions: `~/.cursor/rules/*.mdc` with `alwaysApply: true`.
 - Skills: `~/.cursor/skills/`.

@@ -59,9 +59,11 @@ pstack 是一套严谨的工程工作流：`poteto-mode` 把任务路由到 play
 /setup-pstack
 ```
 
-Skills 从不点名某个 harness 的工具或模型。它们只说「用只读权限 spawn 角色 X」「问用户」。`/setup-pstack` 通过读取本 harness 的工具 schema，弄清这些事怎么做，为每个角色选模型和推理预算，并写成一份简短的 **pstack profile**，写入该 harness 的常驻说明。开箱默认：代码委派、文案、判断偏 Opus 5.5；最难的改动偏 Fable 5.2；评审面板各留一席给 Fable 5.2、Opus 5.5、Gemini 4 Carbon。`large` 保留这些默认。没有 `defaults: 2` 行的 profile 来自旧配置；下次运行会替换它认得的旧默认，并保留你的其他选择。若 harness 把模型绑在 agent 定义上而不是 spawn 调用上（Devin 如此），它会生成对应的 agent 文件。然后用成品配方真正 spawn 子代理，证明可用。
+Skills 从不点名某个 harness 的工具或模型。它们只说「用只读权限 spawn 角色 X」「问用户」。`/setup-pstack` 通过读取本 harness 的工具 schema，弄清这些事怎么做，为每个角色选模型和推理预算，并写成一份简短的 **pstack profile**，写入该 harness 的常驻说明。开箱默认：代码委派、文案、判断用 Opus 5.5，力度是 xhigh，没有角色超过 xhigh。评审面板之外，只有你点名 Fable 5.2，或同一份简报上两次 Opus 5.5 的 xhigh 运行都没通过检查，才会用它。评审面板各留一席给 Fable 5.2、Opus 5.5、Gemini 4 Carbon。`large` 保留这些默认。profile 带一行 `# defaults: 3`。没有这行的 profile 来自旧配置；下次运行会替换它认得的旧默认，并保留你的其他选择。若 harness 把模型绑在 agent 定义上而不是 spawn 调用上（Devin 如此），它会生成对应的 agent 文件。然后用成品配方真正 spawn 子代理，证明可用。
 
 没有 profile 时 skills 仍可跑：spawn 通用子代理且不覆盖模型；若 harness 不能 spawn，则依次跑各角色。
+
+`/poteto-mode` 对应二十二个 playbook。大范围、跨模块或无人值守的工作走 `figure-it-out`。被启动的 agent，其 kickoff 指向 [worker.md](skills/poteto-mode/worker.md)。`/architect` 画两种形状。`/reflect` 自己读记录，改 skill 之前先等你点头。
 
 ### 入口
 
@@ -71,7 +73,7 @@ Skills 从不点名某个 harness 的工具或模型。它们只说「用只读�
 | [poteto-mode](skills/poteto-mode/SKILL.md) | 任何需要严谨流程的任务的默认入口。 |
 | [poteto-help](skills/poteto-help/SKILL.md) | 刚接触 pstack，或不确定该用哪个 skill。 |
 | [how](skills/how/SKILL.md) / [why](skills/why/SKILL.md) | 一次只读梳理某子系统怎么工作 / 从提交与 PR 讨论看它为何如此。 |
-| [architect](skills/architect/SKILL.md) / [arena](skills/arena/SKILL.md) / [swarm](skills/swarm/SKILL.md) | 敲定形状 / N 路并行尝试 / N 个并行工人。 |
+| [architect](skills/architect/SKILL.md) / [arena](skills/arena/SKILL.md) / [swarm](skills/swarm/SKILL.md) | 画两种形状；设计很大或有争议时改走 arena / N 路并行尝试 / N 个并行工人。 |
 | [interrogate](skills/interrogate/SKILL.md) | 对手试图打穿分支或 PR，只有跑通证明的发现才留下。 |
 | [ketchup](skills/ketchup/SKILL.md) | 用白话和小图补上你上次发言之后本对话里发生了什么，并列出所有在等你的调用，让你只看回复就能决定。 |
 | [ketchup-video](skills/ketchup-video/SKILL.md) | 把 `/ketchup` 补课做成带字幕的短幻灯视频，等你的调用作为下方文字。 |
