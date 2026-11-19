@@ -3,69 +3,42 @@
   "notGrouped": "bottom",
   "groupings": [
     {
-      "title": "Setup & Entry",
-      "description": "Adapt pstack to your harness, then route work through poteto-mode.",
+      "title": "pstack skills",
+      "description": "Harness-neutral pstack workflows: setup, poteto-mode, principles, and the skills they call.",
       "skills": [
         "setup-pstack",
         "poteto-mode",
         "poteto-help",
-        "figure-it-out"
-      ]
-    },
-    {
-      "title": "Understand",
-      "description": "Read-only investigation before you change anything.",
-      "skills": [
+        "figure-it-out",
         "how",
         "why",
         "teach",
         "recall",
         "in-your-own-words",
         "ketchup",
-        "ketchup-video"
-      ]
-    },
-    {
-      "title": "Design",
-      "description": "Shapes, parallel attempts, plans, and adversarial review before code locks in.",
-      "skills": [
+        "ketchup-video",
         "architect",
         "arena",
         "swarm",
-        "html-plan",
         "sharpen",
-        "interrogate"
-      ]
-    },
-    {
-      "title": "Build & Clean",
-      "description": "Implement, test, and strip noise from the change.",
-      "skills": [
+        "interrogate",
         "tdd",
         "unslop",
         "no-comments",
         "blast-radius",
         "typescript-best-practices",
-        "correct"
-      ]
-    },
-    {
-      "title": "Verify & Ship",
-      "description": "Prove behavior, formalize hard properties, and leave an auditable trail.",
-      "skills": [
+        "correct",
         "create-verification-skill",
         "maintain-verification-skill",
         "create-formal-verification-skill",
         "maintain-formal-verification-skill",
         "statechart",
         "benchmark-checklist",
-        "show-me-your-work"
-      ]
-    },
-    {
-      "title": "Principles",
-      "description": "Named redirects that steer an agent mid-task.",
-      "skills": [
+        "show-me-your-work",
+        "automate-me",
+        "reflect",
+        "bro",
+        "technical-writing",
         "principle-attack-the-premise",
         "principle-boundary-discipline",
         "principle-build-the-lever",
@@ -93,21 +66,12 @@
       ]
     },
     {
-      "title": "Explain",
-      "description": "Plain-language and visual explanations for people, not just agents.",
+      "title": "其他 skills",
+      "description": "Standalone skills outside the pstack workflow.",
       "skills": [
         "eli5",
         "show-me",
-        "bro",
-        "technical-writing"
-      ]
-    },
-    {
-      "title": "Make It Yours",
-      "description": "Capture your style and fold durable learnings back into skills.",
-      "skills": [
-        "automate-me",
-        "reflect"
+        "html-plan"
       ]
     }
   ]

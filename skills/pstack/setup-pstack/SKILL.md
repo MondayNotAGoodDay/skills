@@ -89,7 +89,7 @@ If step 2 found that the spawn call takes a model per call, skip this step.
 
 Otherwise each distinct (model, access) pair in the role table needs an agent definition the spawn call can name. Write one file per pair in the harness's agents directory, named `pstack-<model-slug>-<ro|rw>`. Use the harness's own frontmatter (from the schemas or docs, not from memory). `ro` limits tools to read and search. `rw` allows edit and shell. A persona prompt body is not needed here. Personas are passed as the task prompt.
 
-Optionally also install `poteto-agent` natively, from `skills/poteto-mode/references/poteto-agent.md`, when the harness supports custom agents. Offer it once, skip on no.
+Optionally also install `poteto-agent` natively, from `skills/pstack/poteto-mode/references/poteto-agent.md`, when the harness supports custom agents. Offer it once, skip on no.
 
 Record the generated names in the profile's `agents` line so a re-run can clean them up.
 
