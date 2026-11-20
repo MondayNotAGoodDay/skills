@@ -49,6 +49,8 @@ Look for an existing managed block (`<!-- pstack:begin -->`) in the standing ins
 
 A role not in `references/roles.md` is retired. Drop the line and tell the user. An existing line for `how explorer`, `why investigators`, `hardest tasks`, `architect runners`, `reflect tooling`, or `reflect judgment, divergent, synthesizer` is one of those retired roles. The next run drops it.
 
+Older defaults put another Gemini model, then `gemini-4-neon-high`, in the panel seat. So in any profile or legacy rule, a `gemini-4-neon-high` entry, or a `gemini-4-*` entry other than `gemini-4-neon-*`, in a panel role (`arena runners`, `arena cross-judge pool`, `interrogate reviewers`) is an old default. Each one becomes `gemini-4-neon-xhigh`. A Gemini 4 Neon entry at any other level is the user's choice and stays. Tell the user which entries you replaced.
+
 A profile, or a legacy rule, without a `defaults: 3` line comes from an older setup. A legacy Cursor rule writes that marker as `# defaults: 3`. That setup wrote a line for every role, so some of its values are old defaults, not choices. Before step 4, replace these values with the role's default from `references/roles.md`:
 
 - An `arena cross-judge pool` list of exactly one `claude-fable-*` entry, one `claude-opus-*` entry, and one `gemini-*` entry, in any order, takes that role's current list. Fable and Opus are one vendor, so the Fable entry could judge only where the Opus entry also could.
@@ -69,14 +71,14 @@ Ask for a budget. Name the current one when there is one. With none, say `large`
 - `medium` lowers the default one step, which lands at high
 - `small` lowers the default two steps, which lands at medium
 
-The ladder is `xhigh` > `high` > `medium` > `low`. No role runs above `xhigh`, and a target at the bottom stays there. Most defaults are `xhigh`. The panel roles and `swarm workers` start at `high`. Where the harness cannot control effort, the budget only decides how strong a model to pick, and you say so.
+The ladder is `xhigh` > `high` > `medium` > `low`. No role runs above `xhigh`, and a target at the bottom stays there. Most defaults are `xhigh`. The Fable and Opus seats of a panel role, and `swarm workers`, start at `high`. A Gemini 4 Neon entry in a panel role starts at `xhigh`. Where the harness cannot control effort, the budget only decides how strong a model to pick, and you say so.
 
 ### 5. Pick models
 
 Build the role table from `references/roles.md`.
 
 1. Start from each role's default id and default effort in that file. On a re-run, rebuild every role the user did not change by family, list, or alias from that role's current default, then apply the budget. Those defaults are the fast variants the file records for Opus 5.5. Families are the ones Phase A of the **arena** skill defines, so Fable is its own family, apart from the other Claude models.
-2. Move each role's default effort by the budget's steps, panel entries included. The effort token is the last token of the id, or the token before a trailing `fast`. If the result is not an available model, use the same family's available model with the highest effort at or below the target, else mark the role as needing a choice. No role runs above `xhigh`. Gemini tops out at `high`, so a higher target stays at `high`. Fable 5.2 and Gemini have no fast variant, so never write one. Opus 5.5 always keeps the fast variant its default uses. `inherit` and `ask` do not change. A role the user changed by family, list, or alias keeps that choice, then takes the budget's effort token.
+2. Move each role's default effort by the budget's steps, panel entries included. The effort token is the last token of the id, or the token before a trailing `fast`. If the result is not an available model, use the same family's available model with the highest effort at or below the target, else mark the role as needing a choice. No role runs above `xhigh`. A Gemini 4 Neon entry in a panel role takes its own target, `xhigh` moved by the budget, so `large` keeps `gemini-4-neon-xhigh`, `medium` writes `gemini-4-neon-high`, and `small` writes `gemini-4-neon-medium`. Fable 5.2 and Gemini have no fast variant, so never write one. Opus 5.5 always keeps the fast variant its default uses. `inherit` and `ask` do not change. A role the user changed by family, list, or alias keeps that choice, then takes the budget's effort token.
 3. `arena cross-judge pool` is a list, and Arena runs one judge. Order it by preference. Arena tries only values from a vendor other than the parent's, in that order. Fable and the other Claude models are one vendor. An `inherit` value never judges.
 4. If only one model is available, every role is `inherit` and panels are a single entry. Say that panels will not be model-diverse, and offer `ask` for the panel roles so the user picks models each time the skill runs.
 5. Show the table. Mark any value you could not confirm. Also list each role step 3 dropped. Ask whether to accept it or change specific roles. Offer the available models plus `inherit` (run this role on the parent's model).

@@ -8,7 +8,7 @@ When the harness lists the default id, use it. Otherwise use the same family's a
 
 Families are the ones Phase A of the **arena** skill defines. Fable (`claude-fable`) is its own family, apart from the other Claude models. Fable and those other Claude models are one vendor. That vendor split is what `arena cross-judge pool` uses, and it is why that pool does not include Fable.
 
-Gemini tops out at `high`. Fable 5.2 and Gemini have no fast variant, so never write one for them. Opus 5.5 always runs its `-fast` slug. The effort token is the token before that `-fast`.
+Gemini 4 Neon slugs run from `low` to `xhigh`, with no `max` and no fast variant. Its panel seat runs at `xhigh`, its top. Fable 5.2 and Gemini have no fast variant, so never write one for them. Opus 5.5 always runs its `-fast` slug. The effort token is the token before that `-fast`.
 
 No role runs above `xhigh`. Outside a panel, Fable 5.2 runs only when the user names it for the task, or after two Opus 5.5 runs at `xhigh` of the same brief fail their check. Difficulty alone never qualifies. The `hardest tasks` role is retired.
 
@@ -16,7 +16,7 @@ No role runs above `xhigh`. Outside a panel, Fable 5.2 runs only when the user n
 
 - **code**: Opus 5.5 when the harness offers it, always the fast variant. Default effort `xhigh`, except `swarm workers`, whose default effort is `high`.
 - **judgment**: Opus 5.5 at `xhigh`, fast variant, for prose and review.
-- **panel**: three seats when the harness can fill them, in this order: Fable 5.2 at `high`, Opus 5.5 at `high` fast, Gemini 4 Carbon at `high`. `arena cross-judge pool` drops the Fable seat. Drop a seat whose family is missing. A panel role may instead be `ask`, so the skill has the user pick models each run.
+- **panel**: three seats when the harness can fill them, in this order: Fable 5.2 at `high`, Opus 5.5 at `high` fast, Gemini 4 Neon at `xhigh`. `arena cross-judge pool` drops the Fable seat. Drop a seat whose family is missing. A panel role may instead be `ask`, so the skill has the user pick models each run.
 
 When the harness offers one model, every role is `inherit`.
 
@@ -29,10 +29,10 @@ When the harness offers one model, every role is `inherit`.
 | `perf-issue` | code | `claude-opus-5-5-xhigh-fast` | xhigh, fast | poteto-mode perf-issue playbook |
 | `hillclimb` | code | `claude-opus-5-5-xhigh-fast` | xhigh, fast | poteto-mode hillclimb playbook |
 | `judgment and prose` | judgment | `claude-opus-5-5-xhigh-fast` | xhigh, fast | poteto-mode delegates that write prose or judge |
-| `arena runners` | panel | `claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high` | high | arena |
-| `arena cross-judge pool` | panel | `claude-opus-5-5-high-fast, gemini-4-carbon-high` | high | arena. Arena runs one judge. It tries only entries from a vendor other than the parent's, in list order, so order the list by preference. An `inherit` entry never judges |
+| `arena runners` | panel | `claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh` | high for Fable and Opus; Gemini 4 Neon at xhigh | arena |
+| `arena cross-judge pool` | panel | `claude-opus-5-5-high-fast, gemini-4-neon-xhigh` | high for Opus; Gemini 4 Neon at xhigh | arena. Arena runs one judge. It tries only entries from a vendor other than the parent's, in list order, so order the list by preference. An `inherit` entry never judges |
 | `swarm workers` | code | `claude-opus-5-5-high-fast` | high, fast | swarm. The default for every worker unless a race assigns a model per arm. Trivial mechanical edits and verification read this line |
-| `interrogate reviewers` | panel | `claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high` | high | interrogate |
+| `interrogate reviewers` | panel | `claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh` | high for Fable and Opus; Gemini 4 Neon at xhigh | interrogate |
 
 ## Not a profile role
 
@@ -51,9 +51,9 @@ Each role has a default effort in the table. The budget moves that effort by ste
 | `medium` | lower one step | high |
 | `small` | lower two steps | medium |
 
-`large` equals the defaults. A target at the bottom of the ladder stays there. Apply the role's target to every model in that role, panel entries included. The effort token is the last token of the model id, or the token before a trailing `fast`. When the exact level is missing for a model, use the highest level at or below the target. When the harness has no effort control, ignore the target for the value and let it steer model choice only.
+`large` equals the defaults. A target at the bottom of the ladder stays there. Apply the role's target to every model in that role, panel entries included, except a Gemini 4 Neon entry in a panel role. That entry takes its own target, `xhigh` moved by the budget, so `large` keeps `gemini-4-neon-xhigh`, `medium` writes `gemini-4-neon-high`, and `small` writes `gemini-4-neon-medium`. The effort token is the last token of the model id, or the token before a trailing `fast`. When the exact level is missing for a model, use the highest level at or below the target. When the harness has no effort control, ignore the target for the value and let it steer model choice only.
 
-Gemini tops out at `high`, so a higher target stays at `high`. Fable 5.2 and Gemini have no fast variant. Opus 5.5 always keeps `-fast`.
+Fable 5.2 and Gemini have no fast variant. Opus 5.5 always keeps `-fast`.
 
 `inherit` and `ask` never change with the budget.
 

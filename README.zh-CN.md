@@ -59,7 +59,7 @@ pstack 是一套严谨的工程工作流：`poteto-mode` 把任务路由到 play
 /setup-pstack
 ```
 
-Skills 从不点名某个 harness 的工具或模型。它们只说「用只读权限 spawn 角色 X」「问用户」。`/setup-pstack` 通过读取本 harness 的工具 schema，弄清这些事怎么做，为每个角色选模型和推理预算，并写成一份简短的 **pstack profile**，写入该 harness 的常驻说明。开箱默认：代码委派、文案、判断用 Opus 5.5，力度是 xhigh，没有角色超过 xhigh。评审面板之外，只有你点名 Fable 5.2，或同一份简报上两次 Opus 5.5 的 xhigh 运行都没通过检查，才会用它。评审面板各留一席给 Fable 5.2、Opus 5.5、Gemini 4 Carbon。`large` 保留这些默认。profile 带一行 `# defaults: 3`。没有这行的 profile 来自旧配置；下次运行会替换它认得的旧默认，并保留你的其他选择。若 harness 把模型绑在 agent 定义上而不是 spawn 调用上（Devin 如此），它会生成对应的 agent 文件。然后用成品配方真正 spawn 子代理，证明可用。
+Skills 从不点名某个 harness 的工具或模型。它们只说「用只读权限 spawn 角色 X」「问用户」。`/setup-pstack` 通过读取本 harness 的工具 schema，弄清这些事怎么做，为每个角色选模型和推理预算，并写成一份简短的 **pstack profile**，写入该 harness 的常驻说明。开箱默认：代码委派、文案、判断用 Opus 5.5，力度是 xhigh，没有角色超过 xhigh。评审面板之外，只有你点名 Fable 5.2，或同一份简报上两次 Opus 5.5 的 xhigh 运行都没通过检查，才会用它。评审面板各留一席给 Fable 5.2、Opus 5.5、Gemini 4 Neon。`large` 保留这些默认。profile 带一行 `# defaults: 3`。没有这行的 profile 来自旧配置；下次运行会替换它认得的旧默认，并保留你的其他选择。若 harness 把模型绑在 agent 定义上而不是 spawn 调用上（Devin 如此），它会生成对应的 agent 文件。然后用成品配方真正 spawn 子代理，证明可用。
 
 没有 profile 时 skills 仍可跑：spawn 通用子代理且不覆盖模型；若 harness 不能 spawn，则依次跑各角色。
 
