@@ -79,6 +79,7 @@ Without a profile, skills still run. They spawn a general-purpose subagent with 
 | [ketchup-video](skills/pstack/ketchup-video/SKILL.md) | The `/ketchup` catch-up as a short subtitled video of slides, with the calls waiting on you as text under it. |
 | [in-your-own-words](skills/pstack/in-your-own-words/SKILL.md) | Play back the goal and the problem before the work starts. |
 | [sharpen](skills/pstack/sharpen/SKILL.md) | Rewrite a prompt deeper, not bigger, before you send it. The rewrite asks the agent to prototype any choice an experiment can settle, and leaves product and preference choices to you. Doesn't do the task. |
+| [reframe](skills/pstack/reframe/SKILL.md) | You can't name what you're building, so you can't ask for it clearly. If the description could name more than one problem, it lists the two or three it could be, with the sign that tells each apart, and picks the likeliest. Then it teaches the expert words and rewrites the description. |
 | [create-formal-verification-skill](skills/pstack/create-formal-verification-skill/SKILL.md) | Prove one property tests rarely reach, and leave a project skill that rechecks it. |
 | [maintain-formal-verification-skill](skills/pstack/maintain-formal-verification-skill/SKILL.md) | After covered code changes, bring the formal verification back in line and say whether a failure is drift or a bug. |
 | [statechart](skills/pstack/statechart/SKILL.md) | Check a TLA+ model and draw what the user sees as a Mermaid statechart, mark each state that breaks a rule, and give the shortest path to each one. |
