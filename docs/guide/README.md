@@ -1,5 +1,7 @@
 # The pstack guide
 
+[English](./README.md) | [中文](./zh/README.md)
+
 pstack works best when you stop micromanaging the agent. You describe what you want and how you'll know it's done. `/poteto-mode` picks the playbook, runs the other skills as the steps need them, and shows you the evidence. This guide teaches that habit with realistic prompts.
 
 Here's what you'll learn:
