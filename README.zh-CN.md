@@ -79,6 +79,7 @@ Skills 从不点名某个 harness 的工具或模型。它们只说「用只读�
 | [ketchup-video](skills/pstack/ketchup-video/SKILL.md) | 把 `/ketchup` 补课做成带字幕的短幻灯视频，等你的调用作为下方文字。 |
 | [in-your-own-words](skills/pstack/in-your-own-words/SKILL.md) | 开工前用自己的话复述目标与问题。 |
 | [sharpen](skills/pstack/sharpen/SKILL.md) | 发送前把提示改得更深而不是更长。改写会要求代理用实验能拍板的选择先做原型，产品与偏好选择留给你。不替你做任务。 |
+| [reframe](skills/pstack/reframe/SKILL.md) | 叫不出正在做的东西，也就没法说清楚。如果这段描述可能指向不止一个问题，它先列出两三个可能，标出分辨它们的迹象，并挑出最可能的那个。然后教行话，并用这些词改写描述。 |
 | [create-formal-verification-skill](skills/pstack/create-formal-verification-skill/SKILL.md) | 证明测试很少覆盖到的一个性质，并留下可复查的项目 skill。 |
 | [maintain-formal-verification-skill](skills/pstack/maintain-formal-verification-skill/SKILL.md) | 被覆盖的代码变更后，把形式化验证拉回一致，并说明失败是漂移还是 bug。 |
 | [statechart](skills/pstack/statechart/SKILL.md) | 检查 TLA+ 模型，画成用户可见的 Mermaid 状态图，标出每个打破规则的状态，并给出到每个状态的最短路径。 |
